@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'app.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(const App());
+// }
+
+void main() {
   runApp(const App());
 }
