@@ -1,7 +1,10 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../SignUp/sign_up_page.dart';
+import '../Home/home_page.dart';
+import '../../bloc/auth/auth_bloc.dart';
+import 'widgets/form_sign_in.dart';
+import 'widgets/go_sign_up.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -25,92 +28,62 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: SingleChildScrollView(
-            reverse: true,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Sign In',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w400,
-                    height: 1.2,
-                  ),
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
-                Center(
-                  child: Form(
-                    key: _formKey,
+      body: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is Authenticated) {
+            // Navigating to the dashboard screen if the user is authenticated
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
+          }
+          if (state is AuthError) {
+            // Showing the error message if the user has entered invalid credentials
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.error)));
+          }
+        },
+        child: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              // Showing the loading indicator while the user is signing in
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (state is UnAuthenticated) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: SingleChildScrollView(
+                    reverse: true,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                            hintText: 'Email',
-                            border: OutlineInputBorder(),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) =>
-                              value != null && !EmailValidator.validate(value)
-                                  ? 'Enter a valid email'
-                                  : null,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          keyboardType: TextInputType.text,
-                          controller: _passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            hintText: 'Password',
-                            border: OutlineInputBorder(),
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) =>
-                              value != null && value.length < 6
-                                  ? 'Enter min 6 characters'
-                                  : null,
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text('Sign In'),
+                        const Text(
+                          'Sign In',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w400,
+                            height: 1.2,
                           ),
                         ),
+                        const SizedBox(height: 18),
+                        FormSignIn(
+                          formKey: _formKey,
+                          emailController: _emailController,
+                          passwordController: _passwordController,
+                        ),
+                        const Text("Don't have an account?"),
+                        const GoSignUp(),
                       ],
                     ),
                   ),
                 ),
-                const Text("Don't have an account?"),
-                OutlinedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpPage()),
-                    );
-                  },
-                  child: const Text("Sign Up"),
-                ),
-              ],
-            ),
-          ),
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );
   }
 }
-
-//

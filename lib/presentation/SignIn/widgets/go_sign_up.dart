@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../SignIn/sign_in_page.dart';
+import '../../SignUp/sign_up_page.dart';
 
-class ButtonSignUp extends StatelessWidget {
-  const ButtonSignUp({
+class GoSignUp extends StatelessWidget {
+  const GoSignUp({
     Key? key,
   }) : super(key: key);
 
@@ -13,10 +13,11 @@ class ButtonSignUp extends StatelessWidget {
       onPressed: () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const SignInPage()),
+          MaterialPageRoute(
+              builder: (context) => const SignUpPage()),
         );
       },
-      child: const Text("Sign In"),
+      child: const Text("Sign Up"),
     );
   }
 }
