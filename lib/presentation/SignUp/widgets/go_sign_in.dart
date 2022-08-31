@@ -1,6 +1,5 @@
+import 'package:ecommerce_app/config/router.dart';
 import 'package:flutter/material.dart';
-
-import '../../SignIn/sign_in_page.dart';
 
 class GoSignIn extends StatelessWidget {
   const GoSignIn({
@@ -11,10 +10,11 @@ class GoSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const SignInPage()),
-        );
+        // Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const SignInPage()),
+        // );
+        Navigator.pushReplacementNamed(context, AppRouter.signInRoute);
       },
       child: const Text("Sign In"),
     );

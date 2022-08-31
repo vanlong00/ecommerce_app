@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/config/router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +9,9 @@ import 'presentation/Home/home_page.dart';
 import 'presentation/SignIn/sign_in_page.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  App({Key? key}) : super(key: key);
+
+  final AppRouter _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +19,7 @@ class App extends StatelessWidget {
       create: (context) => AuthRepository(),
       child: BlocProvider(
         create: (context) => AuthBloc(
-          authRepository: RepositoryProvider.of<AuthRepository>(context),
-        ),
+            authRepository: RepositoryProvider.of<AuthRepository>(context)),
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
@@ -29,6 +31,7 @@ class App extends StatelessWidget {
               ),
             ),
           ),
+          onGenerateRoute: _appRouter.onGenerateRoute,
           home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {

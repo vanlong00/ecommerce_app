@@ -1,7 +1,7 @@
+import 'package:ecommerce_app/config/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../Home/home_page.dart';
 import '../../bloc/auth/auth_bloc.dart';
 import 'widgets/form_sign_in.dart';
 import 'widgets/go_sign_up.dart';
@@ -32,8 +32,9 @@ class _SignInPageState extends State<SignInPage> {
         listener: (context, state) {
           if (state is Authenticated) {
             // Navigating to the dashboard screen if the user is authenticated
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
+            // Navigator.pushReplacement(context,
+            //     MaterialPageRoute(builder: (context) => const HomePage()));
+            Navigator.pushReplacementNamed(context, AppRouter.homeRoute);
           }
           if (state is AuthError) {
             // Showing the error message if the user has entered invalid credentials

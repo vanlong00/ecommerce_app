@@ -1,11 +1,10 @@
+import 'package:ecommerce_app/config/router.dart';
 import 'package:ecommerce_app/config/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
-import '../Categories/categories_page.dart';
-import '../SignIn/sign_in_page.dart';
 import 'widgets/start_component.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,18 +18,20 @@ class HomePage extends StatelessWidget {
       listener: (context, state) {
         if (state is UnAuthenticated) {
           // Navigate to the sign in screen when the user Signs Out
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const SignInPage()),
-            (route) => false,
-          );
+          // Navigator.of(context).pushAndRemoveUntil(
+          //   MaterialPageRoute(builder: (context) => const SignInPage()),
+          //   (route) => false,
+          // );
+          Navigator.pushNamedAndRemoveUntil(context, AppRouter.signInRoute, (route) => false);
         }
       },
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(
-            user.email!,
-            style: const TextStyle(
+          title: const Text(
+            // user.email!,
+            'Home Page',
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
@@ -44,12 +45,13 @@ class HomePage extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CategoriesPage(),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const CategoriesPage(),
+                //   ),
+                // );
+                Navigator.pushNamed(context, AppRouter.cartRoute);
               },
               icon: const Icon(Icons.shopping_cart_outlined),
             ),

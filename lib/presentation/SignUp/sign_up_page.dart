@@ -2,10 +2,10 @@ import 'package:ecommerce_app/bloc/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../Home/home_page.dart';
 import '../../config/theme.dart';
 import 'widgets/go_sign_in.dart';
 import 'widgets/form_sign_up.dart';
+import '../../config/router.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -33,11 +33,12 @@ class _SignUpPageState extends State<SignUpPage> {
         listener: (context, state) {
           if (state is Authenticated) {
             // Navigating to the dashboard screen if the user is authenticated
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ),
-            );
+            // Navigator.of(context).pushReplacement(
+            //   MaterialPageRoute(
+            //     builder: (context) => const HomePage(),
+            //   ),
+            // );
+            Navigator.pushReplacementNamed(context, AppRouter.homeRoute);
           }
           if (state is AuthError) {
             // Displaying the error message if the user is not authenticated
