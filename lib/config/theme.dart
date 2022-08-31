@@ -5,14 +5,14 @@ class TxtStyle {
       TextStyle(fontWeight: FontWeight.w400, fontSize: 30, height: 1.2);
   static const heading2 = TextStyle(
     fontWeight: FontWeight.w400,
-    fontSize: 24,
+    fontSize: 20,
     height: 1.2,
     decoration: TextDecoration.none,
   );
   static const heading3 =
       TextStyle(fontWeight: FontWeight.w400, fontSize: 20, height: 1.2);
   static const heading4 = TextStyle(
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w400,
     fontSize: 16,
     height: 1.2,
     decoration: TextDecoration.none,
