@@ -2,9 +2,6 @@ part of 'auth_bloc.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
-
-  @override
-  List<Object?> get props => [];
 }
 
 // When the user presses the signin or signup button the state is changed to loading first and then to Authenticated.
@@ -25,7 +22,7 @@ class UnAuthenticated extends AuthState {
   List<Object?> get props => [];
 }
 
-// If any error occurs the state is changed to AuthError.
+// If any error occurs the state is change    d to AuthError.
 class AuthError extends AuthState {
   final String error;
 
