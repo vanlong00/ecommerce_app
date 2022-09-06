@@ -5,7 +5,7 @@ import 'package:ecommerce_app/presentation/SignUp/sign_up_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
-  static const String homeRoute = '/';
+  static const String homeRoute = '/home';
   static const String signInRoute = '/sign-in';
   static const String signUpRoute = '/sign-up';
   static const String cartRoute = '/cart';

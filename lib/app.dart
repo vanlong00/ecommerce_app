@@ -8,9 +8,14 @@ import 'data/repositories/auth_repository.dart';
 import 'presentation/Home/home_page.dart';
 import 'presentation/SignIn/sign_in_page.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   App({Key? key}) : super(key: key);
 
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   final AppRouter _appRouter = AppRouter();
 
   @override

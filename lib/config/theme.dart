@@ -48,7 +48,7 @@ class TxtStyle {
       decoration: TextDecoration.none);
   static const heading5Light = TextStyle(
       fontWeight: FontWeight.w300,
-      fontSize: 14,
+      fontSize: 16,
       height: 1.2,
       color: Colors.black45,
       decoration: TextDecoration.none);
