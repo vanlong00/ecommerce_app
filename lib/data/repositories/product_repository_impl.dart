@@ -15,4 +15,13 @@ class ProductRepositoryImpl implements ProductRepository {
         (snapshot) =>
             snapshot.docs.map((doc) => Product.fromSnapShot(doc)).toList());
   }
+  //Load data all Products (testing)
+  @override
+  Future<List<Product>> getProductsByCategories() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await _firebaseFirestore.collection('products').get();
+    return snapshot.docs
+        .map((docSnapshot) => Product.fromDocumentSnapShot(docSnapshot))
+        .toList();
+  }
 }

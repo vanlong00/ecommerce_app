@@ -26,7 +26,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     });
 
     on<UpdateProducts>(((event, emit) {
-      emit(ProductLoaded(products: event.products));
+      emit(ProductLoaded(event.products));
     }));
+
+    on<FetchProduct>(_fetchProductData);
+  }
+  //Load data all Products (testing)
+  _fetchProductData(FetchProduct event, Emitter<ProductState> emit) async {
+    List<Product> listProduct = await _productRepositoryImpl.getProductsByCategories();
+    emit(ProductLoaded(listProduct));
   }
 }

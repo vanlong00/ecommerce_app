@@ -13,7 +13,9 @@ class UpdateProducts extends ProductEvent {
   final List<Product> products;
 
   const UpdateProducts(this.products);
-  
+
   @override
   List<Object> get props => [products];
 }
+//Load data all Products (testing)
+class FetchProduct extends ProductEvent {}
