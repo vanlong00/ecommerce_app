@@ -1,8 +1,8 @@
 import 'package:ecommerce_app/config/theme.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesPage extends StatelessWidget {
-  const CategoriesPage({Key? key}) : super(key: key);
+class CartPage extends StatelessWidget {
+  const CartPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,7 @@ class CategoriesPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Categories',
+          'Cart',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,

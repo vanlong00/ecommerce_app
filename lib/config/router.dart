@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/bloc/product/product_bloc.dart';
 import 'package:ecommerce_app/data/repositories/product_repository_impl.dart';
-import 'package:ecommerce_app/presentation/Categories/categories_page.dart';
+import 'package:ecommerce_app/presentation/Cart/cart_page.dart';
 import 'package:ecommerce_app/presentation/Home/home_page.dart';
 import 'package:ecommerce_app/presentation/SignIn/sign_in_page.dart';
 import 'package:ecommerce_app/presentation/SignUp/sign_up_page.dart';
@@ -36,7 +36,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
             value: _productBloc,
-            child: const CategoriesPage(),
+            child: const CartPage(),
           ),
         );
 
