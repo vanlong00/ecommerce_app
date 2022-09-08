@@ -13,10 +13,10 @@ class AppRouter {
   static const String signUpRoute = '/sign-up';
   static const String cartRoute = '/cart';
 
-  final ProductRepositoryImpl _productRepositoryImpl = ProductRepositoryImpl();
-  late final ProductBloc _productBloc = ProductBloc(productRepositoryImpl: _productRepositoryImpl);
-
   Route onGenerateRoute(RouteSettings routeSettings) {
+    final ProductRepositoryImpl _productRepositoryImpl = ProductRepositoryImpl();
+    final ProductBloc _productBloc = ProductBloc(productRepositoryImpl: _productRepositoryImpl);
+
     switch (routeSettings.name) {
       case homeRoute:
         return MaterialPageRoute(

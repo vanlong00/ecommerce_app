@@ -84,7 +84,9 @@ class HomePage extends StatelessWidget {
               child: BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
                   if (state is ProductLoading) {
-                    context.read<ProductBloc>().add(LoadProducts());
+                    //Load data all Products (testing)
+                    //context.read<ProductBloc>().add(LoadProduct());
+                    context.read<ProductBloc>().add(FetchProduct());
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (state is ProductLoaded) {
