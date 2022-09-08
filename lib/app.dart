@@ -5,11 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/auth/auth_bloc.dart';
 import 'data/repositories/auth_repository.dart';
-import 'presentation/Home/home_page.dart';
 import 'presentation/SignIn/sign_in_page.dart';
 
 class App extends StatefulWidget {
-  App({Key? key}) : super(key: key);
+  const App({Key? key}) : super(key: key);
 
   @override
   State<App> createState() => _AppState();
@@ -37,12 +36,15 @@ class _AppState extends State<App> {
             ),
           ),
           onGenerateRoute: _appRouter.onGenerateRoute,
+          
           home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return const HomePage();
-              }
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.of(context).pushReplacementNamed('/home');
+                });
+              } 
               return const SignInPage();
             },
           ),

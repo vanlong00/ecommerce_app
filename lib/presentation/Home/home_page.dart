@@ -1,18 +1,19 @@
 import 'package:ecommerce_app/config/router.dart';
 import 'package:ecommerce_app/config/theme.dart';
 import 'package:ecommerce_app/data/models/product.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/auth/auth_bloc.dart';
-import 'widgets/start_component.dart';
+import '../../bloc/product/product_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // final List<Product> listProductRecommend = Product.products.where((product) => product.isRecommend == true).toList();
+
     // final size = MediaQuery.of(context).size;
     // final user = FirebaseAuth.instance.currentUser!;
     return BlocListener<AuthBloc, AuthState>(
@@ -77,30 +78,57 @@ class HomePage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const HeaderSection(
-              nameHeader: 'RECOMMEND',
-            ),
+            const HeaderSection(nameHeader: 'RECOMMEND'),
             SizedBox(
               height: 165,
-              child: ListView.builder(
-                shrinkWrap: true,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                scrollDirection: Axis.horizontal,
-                itemCount: Product.products.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: ProductCard(
-                      product: Product.products[index],
-                    ),
-                  );
+              child: BlocBuilder<ProductBloc, ProductState>(
+                builder: (context, state) {
+                  if (state is ProductLoading) {
+                    context.read<ProductBloc>().add(LoadProducts());
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state is ProductLoaded) {
+                    final List<Product> productList = state.products;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 5.0,
+                      ),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: productList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 15.0),
+                          child: ProductCard(
+                            product: productList[index],
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  return Container();
+                  // if (state is ProductLoaded) {
+                  //   return ListView.builder(
+                  //     shrinkWrap: true,
+                  //     padding: const EdgeInsets.symmetric(
+                  //         horizontal: 20.0, vertical: 5.0),
+                  //     scrollDirection: Axis.horizontal,
+                  //     itemCount: state.length,
+                  //     itemBuilder: (context, index) {
+                  //       return Padding(
+                  //         padding: const EdgeInsets.only(right: 15.0),
+                  //         child: ProductCard(
+                  //           product: state[index],
+                  //         ),
+                  //       );
+                  //     },
+                  //   );
+                  // }
                 },
               ),
             ),
-            const HeaderSection(
-              nameHeader: 'PRODUCT',
-            ),
+            const HeaderSection(nameHeader: 'PRODUCT'),
           ],
         ),
       ),
@@ -144,10 +172,10 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.6),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 4), // changes position of shadow
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
@@ -166,7 +194,7 @@ class ProductCard extends StatelessWidget {
                   width: 150,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: ExactAssetImage(product.imageUrl),
+                        image: NetworkImage(product.imageUrl),
                         fit: BoxFit.cover),
                     // color: Colors.black12,
                     borderRadius: BorderRadius.circular(10),

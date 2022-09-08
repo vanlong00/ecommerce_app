@@ -1,8 +1,11 @@
+import 'package:ecommerce_app/bloc/product/product_bloc.dart';
+import 'package:ecommerce_app/data/repositories/product_repository_impl.dart';
 import 'package:ecommerce_app/presentation/Categories/categories_page.dart';
 import 'package:ecommerce_app/presentation/Home/home_page.dart';
 import 'package:ecommerce_app/presentation/SignIn/sign_in_page.dart';
 import 'package:ecommerce_app/presentation/SignUp/sign_up_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRouter {
   static const String homeRoute = '/home';
@@ -10,16 +13,32 @@ class AppRouter {
   static const String signUpRoute = '/sign-up';
   static const String cartRoute = '/cart';
 
+  final ProductRepositoryImpl _productRepositoryImpl = ProductRepositoryImpl();
+  late final ProductBloc _productBloc = ProductBloc(productRepositoryImpl: _productRepositoryImpl);
+
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(
+          builder: (_) => RepositoryProvider.value(
+            value: _productRepositoryImpl,
+            child: BlocProvider.value(
+              value: _productBloc,
+              child: const HomePage(),
+            ),
+          ),
+        );
       case signInRoute:
         return MaterialPageRoute(builder: (_) => const SignInPage());
       case signUpRoute:
         return MaterialPageRoute(builder: (_) => const SignUpPage());
       case cartRoute:
-        return MaterialPageRoute(builder: (_) => const CategoriesPage());   
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _productBloc,
+            child: const CategoriesPage(),
+          ),
+        );
 
       default:
         return MaterialPageRoute(
