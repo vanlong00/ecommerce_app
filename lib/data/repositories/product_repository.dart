@@ -1,7 +1,6 @@
 import '../models/product.dart';
 
 abstract class ProductRepository {
-  Stream<List<Product>> getAllProducts();
-  //Load data all Products (testing)
-  Future<List<Product>> getProductsByCategories();
+  //Load data all Products
+  Future<List<Product>> getAllProducts();
 }

@@ -9,15 +9,9 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl({FirebaseFirestore? firebaseFirestore})
       : _firebaseFirestore = firebaseFirestore ?? FirebaseFirestore.instance;
 
+  //Load data all Products
   @override
-  Stream<List<Product>> getAllProducts() {
-    return _firebaseFirestore.collection('products').snapshots().map(
-        (snapshot) =>
-            snapshot.docs.map((doc) => Product.fromSnapShot(doc)).toList());
-  }
-  //Load data all Products (testing)
-  @override
-  Future<List<Product>> getProductsByCategories() async {
+  Future<List<Product>> getAllProducts() async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
         await _firebaseFirestore.collection('products').get();
     return snapshot.docs

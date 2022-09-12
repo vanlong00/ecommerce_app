@@ -16,16 +16,6 @@ class Product extends Equatable {
     required this.isRecommend,
   });
 
-  static Product fromSnapShot(DocumentSnapshot snap) {
-    Product product = Product(
-      name: snap['name'],
-      category: snap['category'],
-      imageUrl: snap['imageUrl'],
-      price: snap['price'],
-      isRecommend: snap['isRecommend'],
-    );
-    return product;
-  }
   //Load data all Products (testing)
   Product.fromDocumentSnapShot(DocumentSnapshot<Map<String, dynamic>> doc)
       : name = doc.data()!["name"],
@@ -35,5 +25,5 @@ class Product extends Equatable {
         isRecommend = doc.data()!["isRecommend"];
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [name];
 }

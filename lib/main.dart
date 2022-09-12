@@ -8,8 +8,3 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(const App());
 }
-
-
-// void main() {
-//   runApp(const App());
-// }

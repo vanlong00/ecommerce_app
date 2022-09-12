@@ -36,13 +36,10 @@ class _AppState extends State<App> {
             ),
           ),
           onGenerateRoute: _appRouter.onGenerateRoute,
-          
           home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
-              print("Result: $snapshot");
               if (snapshot.hasData) {
-                print("Result: $snapshot");
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Navigator.of(context).pushReplacementNamed('/home');
                 });
