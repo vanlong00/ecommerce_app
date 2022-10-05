@@ -1,27 +1,22 @@
+import 'package:ecommerce_app/data/repositories/base_auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthRepository {
-  final _firebaseAuth = FirebaseAuth.instance;
+class AuthRepository implements BaseAuthRepository {
+  final FirebaseAuth _firebaseAuth;
 
-  Future<void> signUp({required String email, required String password}) async {
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw Exception('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        throw Exception('The account already exists for that email.');
-      }
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
+  AuthRepository({FirebaseAuth? firebaseAuth})
+      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
-  Future<void> signIn({required String email, required String password}) async {
+  @override
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         throw Exception('No user found for that email.');
@@ -31,11 +26,33 @@ class AuthRepository {
     }
   }
 
+  @override
   Future<void> signOut() async {
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> signUp({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        throw Exception('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        throw Exception('The account already exists for that email.');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 }
