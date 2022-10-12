@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../../../config/app_color.dart';
 import '../../../config/text_style.dart';
+import '../../../data/models/cart.dart';
 
 class CheckOutCard extends StatelessWidget {
   const CheckOutCard({
     Key? key,
+    required this.cartItems,
   }) : super(key: key);
+
+  final Cart cartItems;
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +52,14 @@ class CheckOutCard extends StatelessWidget {
             const SizedBox(height: 20.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:  [
-                const Text.rich(
+              children: [
+                Text.rich(
                   TextSpan(
                     text: 'Total \n',
+                    style: TxtStyle.largeText,
                     children: [
                       TextSpan(
-                        text: '\$337.15',
-                        style: TxtStyle.mediumText,
+                        text: '\$ ${cartItems.totalPrice.toStringAsFixed(2)}',
                       )
                     ],
                   ),
@@ -72,10 +76,11 @@ class CheckOutCard extends StatelessWidget {
                         primary: Colors.white,
                         backgroundColor: const Color(0xFFFF7643),
                       ),
-                      onPressed: (){},
+                      onPressed: () {},
                       child: Text(
                         'Check out',
-                        style: TxtStyle.largeText.apply(color: ColorTheme.white),
+                        style:
+                            TxtStyle.largeText.apply(color: ColorTheme.white),
                       ),
                     ),
                   ),

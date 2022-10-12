@@ -10,15 +10,12 @@ abstract class ProductEvent extends Equatable {
 //Load data all Products event
 class FetchProduct extends ProductEvent {}
 
-//Load data Recommend Product
-class FecthRecommendProduct extends ProductEvent {}
+//Load data one Product event
+class GetDataProduct extends ProductEvent {
+  final DocumentReference<Map<String, dynamic>> docRef;
 
-//Load data Product By Category event
-// class FetchProductByCategory extends ProductEvent {
-//   final String category;
+  const GetDataProduct({required this.docRef});
 
-//   const FetchProductByCategory(this.category);
-
-//   @override
-//   List<Object> get props => [category];
-// }
+  @override
+  List<Object> get props => [docRef];
+}

@@ -1,8 +1,14 @@
+import 'package:ecommerce_app/bloc/Cart/cart_bloc.dart';
 import 'package:ecommerce_app/config/app_color.dart';
+import 'package:ecommerce_app/config/routes.dart';
 import 'package:ecommerce_app/config/text_style.dart';
+import 'package:ecommerce_app/data/models/variant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../bloc/Variant/variant_bloc.dart';
 import '../../data/models/product.dart';
+import '../../widgets/add_to_cart_button.dart';
 import 'components/selected_variant.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -14,27 +20,84 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildImage(),
-            _buildName(),
-            _buildPrice(),
-            _buildDescription(),
-            SelectedVariant(product: product)
-          ],
+      appBar: _buildAppBar(context),
+      body: BlocListener<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state is CartAdded) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.toString()),
+              duration: const Duration(seconds: 1),
+            ));
+          }
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildImage(),
+              _buildName(),
+              _buildPrice(),
+              _buildDescription(),
+              BlocBuilder<VariantBloc, VariantState>(
+                builder: (context, state) {
+                  if (state is VariantLoading) {
+                    context
+                        .read<VariantBloc>()
+                        .add(FetchVariant(idProduct: product.id));
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state is VariantLoaded) {
+                    final listVariants = state.variants.toList();
+                    if (listVariants.first.size != null) {
+                      return SelectedVariant(listVariants: listVariants);
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: AddToCartButton(
+                        onPressed: () {
+                          Variant item = listVariants.first;
+                          context.read<CartBloc>().add(AddVariant(item: item));
+                        },
+                      ),
+                    );
+                  }
+                  return Container();
+                },
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text(
+        product.title,
+        style: TxtStyle.heading4,
+      ),
+      centerTitle: true,
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back,
+          size: 24.0,
+        ),
+        onPressed: () {
+          context.read<VariantBloc>().add(ExitVariant());
+          Navigator.pushNamedAndRemoveUntil(
+              context, Routes.home, (route) => false);
+        },
       ),
     );
   }
 
   Padding _buildDescription() {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 64.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Text(
         product.description,
+        textAlign: TextAlign.justify,
         style: TxtStyle.normalText.apply(color: ColorTheme.black),
       ),
     );
@@ -54,7 +117,7 @@ class ProductDetailScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, top: 16.0, right: 64.0),
       child: Text(
-        product.name,
+        product.title,
         style: TxtStyle.heading3,
       ),
     );
@@ -70,16 +133,6 @@ class ProductDetailScreen extends StatelessWidget {
           fit: BoxFit.fitHeight,
         ),
       ),
-    );
-  }
-
-  AppBar _buildAppBar() {
-    return AppBar(
-      title: Text(
-        product.name,
-        style: TxtStyle.heading4,
-      ),
-      centerTitle: false,
     );
   }
 }

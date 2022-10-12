@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/data/models/product.dart';
 import 'package:ecommerce_app/data/repositories/product_repository_impl.dart';
 import 'package:equatable/equatable.dart';
@@ -13,10 +16,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       : _productRepositoryImpl = productRepositoryImpl,
         super(ProductLoading()) {
     on<FetchProduct>(_fetchProductData);
+    on<GetDataProduct>(_getDataOneProduct);
   }
   //Load data all Products
-  _fetchProductData(FetchProduct event, Emitter<ProductState> emit) async {
+  FutureOr<void> _fetchProductData(
+      FetchProduct event, Emitter<ProductState> emit) async {
     List<Product> listProduct = await _productRepositoryImpl.getAllProducts();
-    emit(ProductLoaded(listProduct));
+
+    emit(ProductLoaded(products: listProduct));
+  }
+
+  FutureOr<void> _getDataOneProduct(
+      GetDataProduct event, Emitter<ProductState> emit) async {
+    Product item = await _productRepositoryImpl.getProduct(event.docRef);
+    emit(ProductLoadedOne(product: item));
   }
 }

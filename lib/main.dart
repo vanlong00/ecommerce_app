@@ -10,4 +10,4 @@ Future<void> main() async {
   await Firebase.initializeApp();
   Bloc.observer = AppBlocObserver();
   runApp(const App());
-}
+} 

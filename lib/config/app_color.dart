@@ -5,6 +5,6 @@ class ColorTheme {
   static const secondaryColor = Color(0XFF3D190A);
   static const black = Color(0xFF000000);
   static const white = Color(0xFFFFFFFF);
-  static const grey = Color(0xFF808080);
-  static const textFieldColor = Color(0xFFA8AFB9);
+  static const grey = Color(0xFF9098B1);
+  static const netural = Color(0xFFEBF0FF);
 }

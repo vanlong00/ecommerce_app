@@ -1,45 +1,47 @@
 part of 'cart_bloc.dart';
 
 abstract class CartState extends Equatable {
-  final List<Product> cartItem;
-  const CartState({required this.cartItem});
+  final Cart cartShopping;
+
+  const CartState({required this.cartShopping});
 
   @override
   List<Object?> get props => [];
 }
 
 class CartLoading extends CartState {
-  const CartLoading({required super.cartItem});
+  const CartLoading({required super.cartShopping});
 }
 
 class CartLoaded extends CartState {
-  final List<Product> cartItem;
+  final Cart cartItem;
 
-  const CartLoaded({required this.cartItem}) : super(cartItem: cartItem);
+  const CartLoaded({required this.cartItem}) : super(cartShopping: cartItem);
 
   @override
   List<Object> get props => [cartItem];
 }
 
-class ProductAdded extends CartState {
-  final List<Product> cartItem;
+class CartAdded extends CartState {
+  final Cart cartItem;
 
-  const ProductAdded({required this.cartItem}) : super(cartItem: cartItem);
+  const CartAdded({required this.cartItem}) : super(cartShopping: cartItem);
 
   @override
   List<Object> get props => [cartItem];
 
   @override
-  String toString() => 'ProductAdded{ todos: $cartItem }';
+  String toString() => 'Cart Added';
 }
 
-class ProductRemoved extends CartState {
-  final List<Product> cartItem;
-  const ProductRemoved({required this.cartItem}) : super(cartItem: cartItem);
+class CartRemoved extends CartState {
+  final Cart cartItem;
+
+  const CartRemoved({required this.cartItem}) : super(cartShopping: cartItem);
 
   @override
   List<Object> get props => [cartItem];
 
   @override
-  String toString() => 'ProductRemoved { todos: $cartItem }';
+  String toString() => 'Cart Removed';
 }

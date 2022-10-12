@@ -16,33 +16,33 @@ class CardRecommend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed(Routes.productDetail, arguments: product);
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 175,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-              image: DecorationImage(
-                image: NetworkImage(product.imageUrl),
-                fit: BoxFit.cover,
+        onTap: () {
+          Navigator.of(context).pushNamedAndRemoveUntil(Routes.productDetail, arguments: product, (route) => false,);
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 175,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                image: DecorationImage(
+                  image: NetworkImage(product.imageUrl),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Text(
-            product.name,
-            style: TxtStyle.mediumText,
-          ),
-          Text(
-            '${product.price}\$',
-            style: TxtStyle.mediumText.apply(color: ColorTheme.textFieldColor),
-          ),
-        ],
-      ),
-    );
+            Text(
+              product.title,
+              style: TxtStyle.mediumText,
+            ),
+            Text(
+              '${product.price}\$',
+              style: TxtStyle.mediumText.apply(color: ColorTheme.grey),
+            ),
+          ],
+        ),
+      );
   }
 }

@@ -18,20 +18,31 @@ class CardCategory extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          SizedBox(
-            width: 70.0,
-            height: 70.0,
-            child: CircleAvatar(
-              minRadius: 66.0,
-              backgroundColor: ColorTheme.textFieldColor,
-              backgroundImage: category.imageUrl == null
-                  ? null
-                  : NetworkImage(category.imageUrl!),
+          GestureDetector(
+            onTap: () {
+              print(category);
+            },
+            child: SizedBox(
+              width: 70.0,
+              height: 70.0,
+              child: CircleAvatar(
+                minRadius: 66.0,
+                backgroundColor: ColorTheme.netural,
+                child: CircleAvatar(
+                  maxRadius: 34.0,
+                  backgroundColor: ColorTheme.white,
+                  child: Image.asset(
+                    category.imgUrl,
+                    height: 24.0,
+                    width: 24.0,
+                  ),
+                ),
+              ),
             ),
           ),
           Text(
-            category.name,
-            style: TxtStyle.mediumText.apply(color: ColorTheme.textFieldColor),
+            category.title,
+            style: TxtStyle.mediumText.apply(color: ColorTheme.grey),
           ),
         ],
       ),

@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is Authenticated) {
             // Navigating to the dashboard screen if the user is authenticated
-            Navigator.of(context).pushReplacementNamed(Routes.dashboard);
+            Navigator.of(context).pushReplacementNamed(Routes.home);
           }
           if (state is AuthError) {
             // Showing the error message if the user has entered invalid credentials

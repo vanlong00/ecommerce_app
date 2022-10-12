@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigateUser() async{
     if (FirebaseAuth.instance.currentUser != null) {
-      Navigator.of(context).pushReplacementNamed('dashboard');
+      Navigator.of(context).pushReplacementNamed('home');
     } else {
       Navigator.of(context).pushReplacementNamed('login');
     }

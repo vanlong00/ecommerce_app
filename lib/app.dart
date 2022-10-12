@@ -28,7 +28,7 @@ class _AppState extends State<App> {
           title: 'E-Commerce App',
           theme: buildThemeData(),
           onGenerateRoute: _appRouter.onGenerateRoute,
-          initialRoute: 'home',
+          initialRoute: 'splash',
         ),
       ),
     );

@@ -19,6 +19,7 @@ dependencies:
   equatable: ^2.0.5
   email_validator: ^2.1.17
   cloud_firestore: ^3.4.6
+  chips_choice: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +33,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icons/
 
   fonts:
     - family: Poppins
