@@ -45,3 +45,13 @@ class CartRemoved extends CartState {
   @override
   String toString() => 'Cart Removed';
 }
+
+
+class CartUpdate extends CartState {
+  final Cart cartItem;
+
+  const CartUpdate({required this.cartItem}) : super(cartShopping: cartItem);
+
+  @override
+  List<Object> get props => [cartItem];
+}

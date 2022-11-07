@@ -1,11 +1,14 @@
-
 import 'package:ecommerce_app/config/routes.dart';
+import 'package:ecommerce_app/presentation/Payment/payment_screen.dart';
+import 'package:ecommerce_app/presentation/Promotion/promotion_screen.dart';
+import 'package:ecommerce_app/presentation/Success/success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/Cart/cart_bloc.dart';
 import '../bloc/Category/category_bloc.dart';
 import '../bloc/Product/product_bloc.dart';
+import '../bloc/Promotion/promotion_bloc.dart';
 import '../bloc/Variant/variant_bloc.dart';
 import '../data/models/product.dart';
 import '../data/repositories/product_repository_impl.dart';
@@ -26,6 +29,8 @@ class AppRouter {
   late final variantBloc =
       VariantBloc(productRepositoryImpl: productRepositoryImpl);
   final CartBloc cartBloc = CartBloc();
+  late final PromotionBloc promotionBloc =
+      PromotionBloc(productRepositoryImpl: productRepositoryImpl);
 
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -47,7 +52,8 @@ class AppRouter {
                         value: cartBloc,
                       ),
                       BlocProvider(
-                        create: (context) => ProductBloc(productRepositoryImpl: productRepositoryImpl),
+                        create: (context) => ProductBloc(
+                            productRepositoryImpl: productRepositoryImpl),
                       ),
                     ],
                     child: const CartScreen(),
@@ -86,6 +92,30 @@ class AppRouter {
                     ],
                     child: const HomeScreen(),
                   ),
+                ));
+      case Routes.promotion:
+        return MaterialPageRoute(
+            builder: (_) => RepositoryProvider.value(
+                  value: productRepositoryImpl,
+                  child: MultiBlocProvider(
+                    providers: [
+                      BlocProvider.value(
+                        value: promotionBloc,
+                      ),
+                      BlocProvider.value(
+                        value: cartBloc,
+                      ),
+                    ],
+                    child: const PromotionScreen(),
+                  ),
+                ));
+      case Routes.payment:
+        return MaterialPageRoute(builder: (_) => const PaymentScreen());
+      case Routes.success:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                  value: cartBloc,
+                  child: const SuccessScreen(),
                 ));
       // case Routes.home:
       // return MaterialPageRoute(

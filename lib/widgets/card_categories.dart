@@ -20,7 +20,7 @@ class CardCategory extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              print(category);
+              debugPrint('$category');
             },
             child: SizedBox(
               width: 70.0,

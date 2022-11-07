@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/config/routes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/app_color.dart';
@@ -35,21 +36,30 @@ class CheckOutCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(
-                  "Add voucher code",
-                  style: TxtStyle.mediumText.apply(color: ColorTheme.grey),
-                ),
-                const SizedBox(width: 10),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: ColorTheme.grey,
-                )
-              ],
+            InkWell(
+              child: Row(
+                children: [
+                  Text(
+                    cartItems.promotion?.code ?? "Add voucher code",
+                    style: TxtStyle.mediumText.apply(color: ColorTheme.grey),
+                  ),
+                  const SizedBox(width: 10),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 12,
+                    color: ColorTheme.grey,
+                  )
+                ],
+              ),
+              onTap: () {
+                Navigator.of(context).pushNamed(Routes.promotion);
+              },
             ),
             const SizedBox(height: 20.0),
+            Text(
+                'Total Price Items: ${cartItems.totalPriceItems.toStringAsFixed(2)}\n'),
+            Text(
+                'Total Promotion: ${cartItems.totalPromotion.toStringAsFixed(2)}\n'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -76,7 +86,9 @@ class CheckOutCard extends StatelessWidget {
                         primary: Colors.white,
                         backgroundColor: const Color(0xFFFF7643),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(Routes.payment);
+                      },
                       child: Text(
                         'Check out',
                         style:

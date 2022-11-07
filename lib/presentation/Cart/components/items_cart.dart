@@ -15,11 +15,13 @@ class ItemsCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: cartItems.items
-          .map((e) => Builder(
-                builder: (context) {
-                  return CardItem(item: e);
-                },
-              ))
+          .map(
+            (e) => Builder(
+              builder: (context) {
+                return CardItem(item: e);
+              },
+            ),
+          )
           .toList(),
     );
   }
