@@ -44,3 +44,38 @@ class DescreaseQuantityVariant extends CartEvent {
   @override
   String toString() => 'Descrease Variant';
 }
+
+class AddPromotion extends CartEvent {
+  final Promotion promotion;
+
+  const AddPromotion({required this.promotion});
+
+  @override
+  List<Object> get props => [promotion];
+
+  @override
+  String toString() => 'Add Promotion';
+}
+
+class RemovePromotion extends CartEvent {
+  final Promotion promotion;
+
+  const RemovePromotion({required this.promotion});
+
+  @override
+  List<Object> get props => [promotion];
+
+  @override
+  String toString() => 'Remove Promotion';
+}
+
+class ClearCart extends CartEvent {
+
+  const ClearCart();
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'ClearCart';
+}

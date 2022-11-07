@@ -6,4 +6,7 @@ abstract class Routes {
   static const String productDetail = 'product-detail';
   static const String splash = 'splash';
   static const String dashboard = 'dashboard';
+  static const String promotion = 'promotion';
+  static const String payment = 'payment';
+  static const String success = 'success';
 }

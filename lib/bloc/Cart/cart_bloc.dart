@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/models/cart.dart';
+import '../../data/models/promotion.dart';
 import '../../data/models/variant.dart';
 
 part 'cart_event.dart';
@@ -19,6 +20,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<RemoveVariant>(_onRemoveVariant);
     on<LoadingCart>(_onLoadingCart);
     on<DescreaseQuantityVariant>(_onDescreaseQuantity);
+    on<AddPromotion>(_onAddPromotion);
+    on<RemovePromotion>(_onRemovePromotion);
+    on<ClearCart>(_onClearCart);
   }
 
   FutureOr<void> _onAddVariant(AddVariant event, Emitter<CartState> emit) {
@@ -54,5 +58,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     item.setQuantity = item.quantity - 1;
     emit(CartAdded(cartItem: cart));
     emit(CartLoading(cartShopping: cart));
+  }
+
+  FutureOr<void> _onAddPromotion(AddPromotion event, Emitter<CartState> emit) {
+    cart.setPromotion = event.promotion;
+    emit(CartUpdate(cartItem: cart));
+    emit(CartLoading(cartShopping: cart));
+  }
+
+  FutureOr<void> _onRemovePromotion(RemovePromotion event, Emitter<CartState> emit) {
+    cart.setPromotion = null;
+    emit(CartUpdate(cartItem: cart));
+    emit(CartLoading(cartShopping: cart));
+  }
+
+  FutureOr<void> _onClearCart(ClearCart event, Emitter<CartState> emit) {
+    Cart newCart = Cart(items: []);
+    emit(CartUpdate(cartItem: newCart));
+    emit(CartLoading(cartShopping: newCart));
   }
 }
